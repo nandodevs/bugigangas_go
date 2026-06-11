@@ -68,14 +68,20 @@ class AuthActions {
       password: PasswordHasher.hashPassword(password),
       createdAt: DateTime.now(),
     );
-    await neon.insertUser(user);
+    final userId = await neon.insertUser(user);
 
     // Migrate anonymous packages if any, then create session
-    await _migrateAnonymousPackages(neon, user.id!);
-    final token = await neon.createSession(user.id!);
+    await _migrateAnonymousPackages(neon, userId);
+    final token = await neon.createSession(userId);
     await neon.setSetting('session_token', token);
 
-    return user;
+    return UserModel(
+      id: userId,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      createdAt: user.createdAt,
+    );
   }
 
   /// Logs in with email and password. Returns `null` if credentials are invalid.

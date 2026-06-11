@@ -124,3 +124,39 @@ flutter analyze lib/
 flutter clean
 flutter pub get
 ```
+
+---
+
+## Sprint 3 — Correções de Persistência, Registro e Ícones
+
+### Corrigido
+
+- **Registro de usuário quebrando após INSERT:** `auth_providers.dart` — o `register()` descartava o ID retornado por `insertUser()` e usava `user.id!` em `null`, causando TypeError com mensagem "Falha ao criar conta". Correção: capturar `final userId = await neon.insertUser(user)` e usar `userId` em vez de `user.id!` nas operações seguintes (migrateAnonymousPackages, createSession). Retornar `UserModel` completo com `id: userId`.
+- **Ícones nativos regenerados:** Limpeza completa dos PNGs gerados em `android/app/src/main/res/` (11 arquivos: 5 mipmap + 5 drawable foreground + 1 XML adaptativo + 1 órfão). Regenerados via `flutter_launcher_icons` a partir do novo `assets/icons/app_icon.png` (fundo transparente). 5 arquivos XML manuais preservados.
+
+### Modificado
+
+- **`CHANGELOG.md`:** Documentação desta sprint adicionada.
+
+### Arquivos Alterados
+
+```
+lib/
+└── features/
+    └── auth/presentation/
+        └── auth_providers.dart          ← register() captura userId de insertUser()
+android/
+└── app/
+    └── src/
+        └── main/
+            └── res/
+                ├── mipmap-*/
+                │   └── ic_launcher.png  ← Regenerado (10 densities)
+                └── drawable/
+                    └── ic_launcher_foreground.png  ← Regenerado
+assets/
+└── icons/
+    └── app_icon.png                     ← Novo ícone base (fundo transparente)
+```
+
+---```
