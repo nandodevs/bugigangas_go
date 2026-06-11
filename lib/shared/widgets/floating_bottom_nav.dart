@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_icons.dart';
 import '../../l10n/app_strings.dart';
 
 /// A custom floating bottom navigation bar with 5 items.
@@ -23,11 +25,11 @@ class FloatingBottomNav extends ConsumerWidget {
     final strings = AppStrings.of(context);
 
     final navItems = <_NavItem>[
-      _NavItem(icon: Icons.home_rounded, label: strings.navHome),
-      _NavItem(icon: Icons.shopping_cart_rounded, label: strings.navMarket),
-      _NavItem(icon: Icons.search_rounded, label: null), // Central — no label
-      _NavItem(icon: Icons.chat_bubble_rounded, label: strings.navChat),
-      _NavItem(icon: Icons.person_rounded, label: strings.navProfile),
+      _NavItem(icon: AppIcons.home, label: strings.navHome),
+      _NavItem(icon: AppIcons.shoppingCart, label: strings.navMarket),
+      _NavItem(icon: AppIcons.search, label: null), // Central — no label
+      _NavItem(icon: AppIcons.chatBubble, label: strings.navChat),
+      _NavItem(icon: AppIcons.person, label: strings.navProfile),
     ];
 
     return Container(
@@ -42,12 +44,12 @@ class FloatingBottomNav extends ConsumerWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
+            color: AppColors.primary.withValues(alpha: 0.08),
+            blurRadius: 24,
+            offset: const Offset(0, -8),
           ),
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 4,
             offset: const Offset(0, -1),
           ),
@@ -62,7 +64,10 @@ class FloatingBottomNav extends ConsumerWidget {
           if (isCenter) {
             return Expanded(
               child: GestureDetector(
-                onTap: () => onTap(index),
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  onTap(index);
+                },
                 child: Semantics(
                   label: strings.navSearchAccessibility,
                   button: true,
@@ -85,7 +90,7 @@ class FloatingBottomNav extends ConsumerWidget {
                           ],
                         ),
                         child: const Icon(
-                          Icons.search_rounded,
+                          AppIcons.search,
                           color: Colors.white,
                           size: 28,
                         ),
@@ -101,7 +106,10 @@ class FloatingBottomNav extends ConsumerWidget {
 
           return Expanded(
             child: GestureDetector(
-              onTap: () => onTap(index),
+              onTap: () {
+                HapticFeedback.lightImpact();
+                onTap(index);
+              },
               child: Semantics(
                 label: item.label ?? '',
                 button: true,

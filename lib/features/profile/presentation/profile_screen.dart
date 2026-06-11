@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_icons.dart';
 import '../../../l10n/app_strings.dart';
 import '../../auth/presentation/auth_providers.dart';
 
@@ -83,14 +84,14 @@ class ProfileScreen extends ConsumerWidget {
 
           // Language selection
           ListTile(
-            leading: Icon(Icons.language, color: AppColors.primary),
+            leading: Icon(AppIcons.language, color: AppColors.primary),
             title: Text(strings.languageSelection),
             subtitle: Text(
               ref.watch(localeProvider).languageCode == 'pt'
                   ? strings.portuguese
                   : strings.english,
             ),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: const Icon(AppIcons.chevronRight),
             onTap: () => context.push('/language'),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -99,10 +100,10 @@ class ProfileScreen extends ConsumerWidget {
 
           // Theme mode selection
           ListTile(
-            leading: Icon(Icons.dark_mode, color: AppColors.primary),
+            leading: Icon(AppIcons.darkMode, color: AppColors.primary),
             title: Text(strings.themeMode),
             subtitle: Text(_themeModeLabel(ref.watch(themeModeProvider))),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: const Icon(AppIcons.chevronRight),
             onTap: () => _showThemePicker(context, ref),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -116,7 +117,7 @@ class ProfileScreen extends ConsumerWidget {
             height: 48,
             child: OutlinedButton.icon(
               onPressed: () => _handleLogout(context, ref),
-              icon: const Icon(Icons.logout_rounded),
+              icon: const Icon(AppIcons.logoutRounded),
               label: Text(strings.profileLogout),
               style: OutlinedButton.styleFrom(
                 foregroundColor: Colors.red,
@@ -168,12 +169,12 @@ class ProfileScreen extends ConsumerWidget {
               ),
               ListTile(
                 leading: Icon(
-                  Icons.brightness_auto,
+                  AppIcons.brightnessAuto,
                   color: current == ThemeMode.system ? AppColors.primary : null,
                 ),
                 title: Text(strings.themeSystem),
                 trailing: current == ThemeMode.system
-                    ? const Icon(Icons.check, color: AppColors.primary)
+                    ? const Icon(AppIcons.check, color: AppColors.primary)
                     : null,
                 onTap: () {
                   actions.setTheme('system');
@@ -182,12 +183,12 @@ class ProfileScreen extends ConsumerWidget {
               ),
               ListTile(
                 leading: Icon(
-                  Icons.light_mode,
+                  AppIcons.lightMode,
                   color: current == ThemeMode.light ? AppColors.primary : null,
                 ),
                 title: Text(strings.themeLight),
                 trailing: current == ThemeMode.light
-                    ? const Icon(Icons.check, color: AppColors.primary)
+                    ? const Icon(AppIcons.check, color: AppColors.primary)
                     : null,
                 onTap: () {
                   actions.setTheme('light');
@@ -196,12 +197,12 @@ class ProfileScreen extends ConsumerWidget {
               ),
               ListTile(
                 leading: Icon(
-                  Icons.dark_mode,
+                  AppIcons.darkMode,
                   color: current == ThemeMode.dark ? AppColors.primary : null,
                 ),
                 title: Text(strings.themeDark),
                 trailing: current == ThemeMode.dark
-                    ? const Icon(Icons.check, color: AppColors.primary)
+                    ? const Icon(AppIcons.check, color: AppColors.primary)
                     : null,
                 onTap: () {
                   actions.setTheme('dark');

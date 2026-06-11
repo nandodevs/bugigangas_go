@@ -55,15 +55,19 @@ class PackageListNotifier extends StateNotifier<List<PackageModel>> {
   // ── Initialization (cache-first) ────────────────────────────────────────
 
   Future<void> _initialize() async {
-    // 1. Load from cache first (instant, synchronous)
-    final cached = _cache.getCachedPackages(null);
-    if (cached != null) {
-      state = cached;
+    try {
+      // 1. Load from cache first (instant, synchronous)
+      final cached = _cache.getCachedPackages(null);
+      if (cached != null) {
+        state = cached;
+      }
+      // 2. Load from Neon with whatever userId is available now.
+      //    If auth hasn't resolved yet, the listener above will reload
+      //    with the actual userId once auth resolves.
+      await _loadPackages(_userId);
+    } finally {
+      _ref.read(isLoadingProvider.notifier).state = false;
     }
-    // 2. Load from Neon with whatever userId is available now.
-    //    If auth hasn't resolved yet, the listener above will reload
-    //    with the actual userId once auth resolves.
-    await _loadPackages(_userId);
   }
 
   // ── Load from Neon ──────────────────────────────────────────────────────
@@ -297,6 +301,9 @@ final filteredPackageListProvider = Provider<List<PackageModel>>((ref) {
         package.tags.any((t) => t.toLowerCase().contains(query));
   }).toList();
 });
+
+/// Indicates whether the initial package list is still loading.
+final isLoadingProvider = StateProvider<bool>((ref) => true);
 
 /// Looks up a single package by its tracking code.
 final packageByCodeProvider =

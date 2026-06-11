@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../core/theme/app_icons.dart';
 import '../../../l10n/app_strings.dart';
 
 /// Tela de Promoções — placeholder com animação "Aguarde".
@@ -16,7 +17,7 @@ class BuyPostageScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
+          icon: const Icon(AppIcons.arrowBackRounded),
           tooltip: strings.back,
           onPressed: () => context.pop(),
         ),

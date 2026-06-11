@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:bugigangas_go/core/cache/cache_service.dart';
 import 'package:bugigangas_go/core/database/neon_service.dart';
 import 'package:bugigangas_go/features/tracking/data/package_repository.dart';
 import 'package:bugigangas_go/features/tracking/domain/package_model.dart';
@@ -11,6 +12,8 @@ import 'package:bugigangas_go/features/tracking/presentation/tracking_screen.dar
 class _MockPackageRepository extends Mock implements PackageRepository {}
 
 class _MockNeonService extends Mock implements NeonService {}
+
+class _MockCacheService extends Mock implements CacheService {}
 
 /// Default 3 packages used by the screen tests.
 const _defaultPackages = [

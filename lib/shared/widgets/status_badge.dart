@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_icons.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_typography.dart';
 
@@ -108,15 +109,15 @@ class StatusBadge extends StatelessWidget {
   static IconData iconForStatus(String status) {
     switch (categorizeStatus(status)) {
       case StatusCategory.processing:
-        return Icons.receipt_long;
+        return AppIcons.receipt;
       case StatusCategory.inTransit:
-        return Icons.local_shipping;
+        return AppIcons.localShipping;
       case StatusCategory.outForDelivery:
-        return Icons.delivery_dining;
+        return AppIcons.deliveryDining;
       case StatusCategory.delivered:
-        return Icons.check_circle;
+        return AppIcons.checkCircle;
       case StatusCategory.exception:
-        return Icons.error_outline;
+        return AppIcons.errorOutline;
     }
   }
 

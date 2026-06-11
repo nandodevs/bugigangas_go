@@ -16,6 +16,7 @@ import '../features/tracking/presentation/tracking_screen.dart';
 import '../features/tracking/presentation/package_detail_screen.dart';
 import '../l10n/app_strings.dart';
 import '../shared/widgets/app_shell.dart';
+import 'theme/app_icons.dart';
 
 /// GoRouter configuration.
 ///
@@ -140,7 +141,7 @@ class _ErrorPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.error_outline,
+              Icon(AppIcons.errorOutline,
                   size: 64, color: Theme.of(context).colorScheme.error),
               const SizedBox(height: 16),
               Text(
@@ -157,7 +158,7 @@ class _ErrorPage extends StatelessWidget {
               const SizedBox(height: 24),
               FilledButton.icon(
                 onPressed: () => context.go('/'),
-                icon: const Icon(Icons.home),
+                icon: const Icon(AppIcons.home),
                 label: Text(strings.backToHome),
               ),
             ],

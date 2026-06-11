@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_icons.dart';
 import '../../../l10n/app_strings.dart';
 import '../../../shared/widgets/status_badge.dart';
 import '../domain/package_model.dart';
@@ -22,9 +24,7 @@ class PackageDetailScreen extends ConsumerWidget {
     if (package == null) {
       return Scaffold(
         appBar: AppBar(title: Text(code)),
-        body: Center(
-          child: Text(strings.trackingPackageNotFound),
-        ),
+        body: Center(child: Text(strings.trackingPackageNotFound)),
       );
     }
 
@@ -33,7 +33,7 @@ class PackageDetailScreen extends ConsumerWidget {
         title: Text(package.code),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(AppIcons.refresh),
             tooltip: strings.trackingRefresh,
             onPressed: () => ref.read(packageListProvider.notifier).refresh(),
           ),
@@ -58,7 +58,8 @@ class PackageDetailScreen extends ConsumerWidget {
               package.delayed)
             _DeliveryInfoCard(package: package, strings: strings),
 
-          if (package.delayed || package.packageType != null ||
+          if (package.delayed ||
+              package.packageType != null ||
               package.estimatedDelivery != null)
             const SizedBox(height: 16),
 
@@ -66,7 +67,7 @@ class PackageDetailScreen extends ConsumerWidget {
           if (package.events.isNotEmpty) ...[
             Row(
               children: [
-                Icon(Icons.timeline, size: 20, color: AppColors.primary),
+                Icon(AppIcons.roadHorizon, size: 20, color: AppColors.primary),
                 const SizedBox(width: 8),
                 Text(
                   strings.trackingHistory,
@@ -118,7 +119,11 @@ class _DeliveryInfoCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.local_shipping, size: 20, color: AppColors.primary),
+                Icon(
+                  AppIcons.localShipping,
+                  size: 20,
+                  color: AppColors.primary,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'Informações de Entrega',
@@ -129,7 +134,7 @@ class _DeliveryInfoCard extends StatelessWidget {
             const SizedBox(height: 16),
             if (package.packageType != null) ...[
               _InfoRow(
-                icon: Icons.inventory_2,
+                icon: AppIcons.inventory2,
                 label: 'Tipo de Pacote',
                 value: package.packageType!,
               ),
@@ -137,7 +142,7 @@ class _DeliveryInfoCard extends StatelessWidget {
             ],
             if (package.carrier != null) ...[
               _InfoRow(
-                icon: Icons.business,
+                icon: AppIcons.business,
                 label: 'Transportadora',
                 value: package.carrier!,
               ),
@@ -145,7 +150,7 @@ class _DeliveryInfoCard extends StatelessWidget {
             ],
             if (package.estimatedDelivery != null) ...[
               _InfoRow(
-                icon: Icons.date_range,
+                icon: AppIcons.dateRange,
                 label: 'Previsão de Entrega',
                 value:
                     '${package.estimatedDelivery!.day.toString().padLeft(2, '0')}/'
@@ -164,18 +169,19 @@ class _DeliveryInfoCard extends StatelessWidget {
                   color: Theme.of(context).colorScheme.errorContainer,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .error
-                        .withValues(alpha: 0.2),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.error.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.warning_amber_rounded,
-                        size: 16,
-                        color: Theme.of(context).colorScheme.onErrorContainer),
+                    Icon(
+                      AppIcons.warning,
+                      size: 16,
+                      color: Theme.of(context).colorScheme.onErrorContainer,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       'Entrega atrasada',
@@ -200,25 +206,24 @@ class _DeliveryInfoCard extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.2),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.inventory,
-                        size: 16,
-                        color:
-                            Theme.of(context).colorScheme.onPrimaryContainer),
+                    Icon(
+                      AppIcons.inventory,
+                      size: 16,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       'Entrega em locker',
                       style: TextStyle(
-                        color:
-                            Theme.of(context).colorScheme.onPrimaryContainer,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
                       ),
@@ -251,49 +256,52 @@ class _StatusHero extends StatelessWidget {
       Theme.of(context).brightness,
     ).foreground;
 
-    return Card(
-      margin: EdgeInsets.zero,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          gradient: LinearGradient(
-            colors: [
-              statusColor.withOpacity(0.1),
-              statusColor.withOpacity(0.04),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+    return Hero(
+      tag: 'package_hero_${package.code}',
+      child: Card(
+        margin: EdgeInsets.zero,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            gradient: LinearGradient(
+              colors: [
+                statusColor.withOpacity(0.1),
+                statusColor.withOpacity(0.04),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            Lottie.asset(
-              _statusAnimationPath(package.status),
-              width: 64,
-              height: 64,
-              repeat: true,
-              animate: true,
-            ),
-            const SizedBox(height: 12),
-            Text(
-              package.status,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: statusColor,
-                    fontWeight: FontWeight.w700,
-                  ),
-            ),
-            if (package.lastUpdate != null) ...[
-              const SizedBox(height: 4),
-              Text(
-                '${strings.trackingUpdated} ${_relativeDate(package.lastUpdate!)}',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+          child: Column(
+            children: [
+              Lottie.asset(
+                _statusAnimationPath(package.status),
+                width: 64,
+                height: 64,
+                repeat: true,
+                animate: true,
               ),
+              const SizedBox(height: 12),
+              Text(
+                package.status,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: statusColor,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              if (package.lastUpdate != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  '${strings.trackingUpdated} ${_relativeDate(package.lastUpdate!)}',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -343,24 +351,36 @@ class _InfoCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(strings.trackingInfo, style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              strings.trackingInfo,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 16),
             _InfoRow(
-              icon: Icons.description,
+              icon: AppIcons.fileText,
               label: strings.trackingDescription,
               value: package.description,
             ),
             const Divider(height: 24),
-            _InfoRow(
-              icon: Icons.qr_code,
-              label: strings.code,
-              value: package.code,
-              isMono: true,
+            GestureDetector(
+              onLongPress: () {
+                Clipboard.setData(ClipboardData(text: package.code));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Código copiado!')),
+                );
+                HapticFeedback.mediumImpact();
+              },
+              child: _InfoRow(
+                icon: AppIcons.qrCode,
+                label: strings.code,
+                value: package.code,
+                isMono: true,
+              ),
             ),
             if (package.origin != null) ...[
               const Divider(height: 24),
               _InfoRow(
-                icon: Icons.location_on,
+                icon: AppIcons.mapPin,
                 label: strings.trackingOrigin,
                 value: package.origin!,
               ),
@@ -368,7 +388,7 @@ class _InfoCard extends StatelessWidget {
             if (package.destination != null) ...[
               const Divider(height: 24),
               _InfoRow(
-                icon: Icons.flag,
+                icon: AppIcons.flag,
                 label: strings.trackingDestination,
                 value: package.destination!,
               ),
@@ -376,7 +396,7 @@ class _InfoCard extends StatelessWidget {
             if (package.lastUpdate != null) ...[
               const Divider(height: 24),
               _InfoRow(
-                icon: Icons.access_time,
+                icon: AppIcons.clock,
                 label: strings.trackingDetailLastUpdate,
                 value:
                     '${package.lastUpdate!.day.toString().padLeft(2, '0')}/'
@@ -411,7 +431,11 @@ class _InfoRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 20, color: Theme.of(context).colorScheme.onSurfaceVariant),
+        Icon(
+          icon,
+          size: 20,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
         const SizedBox(width: 12),
         Expanded(
           child: Column(
@@ -420,16 +444,16 @@ class _InfoRow extends StatelessWidget {
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
               const SizedBox(height: 2),
               Text(
                 value,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontFamily: isMono ? 'monospace' : null,
-                      letterSpacing: isMono ? 1.5 : null,
-                    ),
+                  fontFamily: isMono ? 'monospace' : null,
+                  letterSpacing: isMono ? 1.5 : null,
+                ),
               ),
             ],
           ),
@@ -527,7 +551,16 @@ class _TimelineEntry extends StatelessWidget {
                     child: Center(
                       child: Container(
                         width: 2,
-                        color: AppColors.primaryContainer,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Theme.of(context).colorScheme.primary,
+                              Theme.of(context).colorScheme.primaryContainer,
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -574,13 +607,15 @@ class _TimelineEntry extends StatelessWidget {
                       Expanded(
                         child: Text(
                           event.description,
-                          style: (isLatest
-                                  ? Theme.of(context).textTheme.titleLarge
-                                  : Theme.of(context).textTheme.bodyLarge)
-                              ?.copyWith(
-                            fontWeight:
-                                isLatest ? FontWeight.w600 : FontWeight.w400,
-                          ),
+                          style:
+                              (isLatest
+                                      ? Theme.of(context).textTheme.titleLarge
+                                      : Theme.of(context).textTheme.bodyLarge)
+                                  ?.copyWith(
+                                    fontWeight: isLatest
+                                        ? FontWeight.w600
+                                        : FontWeight.w400,
+                                  ),
                         ),
                       ),
                     ],
@@ -596,8 +631,8 @@ class _TimelineEntry extends StatelessWidget {
                     Text(
                       event.unitName!,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ],
                   if (event.comment != null && event.comment!.isNotEmpty) ...[
@@ -611,20 +646,22 @@ class _TimelineEntry extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.info_outline,
-                              size: 14,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onTertiaryContainer),
+                          Icon(
+                            AppIcons.info,
+                            size: 14,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onTertiaryContainer,
+                          ),
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(
                               event.comment!,
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onTertiaryContainer,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onTertiaryContainer,
                               ),
                             ),
                           ),

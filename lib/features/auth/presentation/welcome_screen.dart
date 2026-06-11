@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_icons.dart';
 import '../../../l10n/app_strings.dart';
 import 'auth_providers.dart';
 
@@ -26,17 +27,17 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
 
     final pages = <_WelcomePage>[
       _WelcomePage(
-        icon: Icons.inventory_2_rounded,
+        icon: AppIcons.inventory2,
         title: strings.welcomePage1Title,
         description: strings.welcomePage1Desc,
       ),
       _WelcomePage(
-        icon: Icons.language_rounded,
+        icon: AppIcons.language,
         title: strings.welcomePage2Title,
         description: strings.welcomePage2Desc,
       ),
       _WelcomePage(
-        icon: Icons.chat_bubble_rounded,
+        icon: AppIcons.chatBubble,
         title: strings.welcomePage3Title,
         description: strings.welcomePage3Desc,
       ),

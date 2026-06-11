@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_icons.dart';
 import '../../../l10n/app_strings.dart';
 import 'auth_providers.dart';
 
@@ -31,7 +32,7 @@ class LanguageScreen extends ConsumerWidget {
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
-                  Icons.language_rounded,
+                  AppIcons.language,
                   size: 40,
                   color: AppColors.primary,
                 ),
@@ -135,7 +136,7 @@ class _LangOption extends StatelessWidget {
                 ),
               ),
               Icon(
-                Icons.arrow_forward_ios_rounded,
+                AppIcons.chevronRight,
                 color: AppColors.textHint,
                 size: 18,
               ),

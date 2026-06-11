@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_icons.dart';
 import '../../../l10n/app_strings.dart';
 
 /// Support screen with a Chat/FAQ tab switcher.
@@ -17,7 +18,7 @@ class SupportScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded),
+          icon: const Icon(AppIcons.arrowBackRounded),
           tooltip: AppStrings.of(context).back,
           onPressed: () => context.pop(),
         ),
@@ -88,8 +89,8 @@ class _SupportBodyState extends State<_SupportBody> {
                         children: [
                           Icon(
                             _selectedTab == 0
-                                ? Icons.chat_bubble_rounded
-                                : Icons.chat_bubble_outline_rounded,
+                                ? AppIcons.chatBubble
+                                : AppIcons.chatBubble,
                             size: 18,
                             color: _selectedTab == 0
                                 ? Theme.of(context).colorScheme.onPrimary
@@ -130,8 +131,8 @@ class _SupportBodyState extends State<_SupportBody> {
                         children: [
                           Icon(
                             _selectedTab == 1
-                                ? Icons.help_rounded
-                                : Icons.help_outline_rounded,
+                                ? AppIcons.help
+                                : AppIcons.helpOutline,
                             size: 18,
                             color: _selectedTab == 1
                                 ? Theme.of(context).colorScheme.onPrimary
@@ -255,7 +256,7 @@ class _FaqContent extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           trailing: const Icon(
-            Icons.chevron_right_rounded,
+            AppIcons.chevronRight,
             color: AppColors.textHint,
           ),
           onTap: () {

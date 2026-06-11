@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/theme/app_icons.dart';
 import '../../../l10n/app_strings.dart';
 import 'tracking_providers.dart';
 
@@ -96,7 +97,7 @@ class _AddPackageSheetState extends ConsumerState<AddPackageSheet> {
               textCapitalization: TextCapitalization.characters,
               decoration: InputDecoration(
                 labelText: strings.trackingTrackingCode,
-                prefixIcon: const Icon(Icons.qr_code),
+                prefixIcon: const Icon(AppIcons.qrCode),
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
@@ -114,7 +115,7 @@ class _AddPackageSheetState extends ConsumerState<AddPackageSheet> {
               decoration: InputDecoration(
                 labelText: strings.trackingAddPackageName,
                 hintText: strings.trackingAddPackageNameHint,
-                prefixIcon: const Icon(Icons.label_outline),
+                prefixIcon: const Icon(AppIcons.label),
               ),
             ),
             const SizedBox(height: 16),
@@ -137,7 +138,7 @@ class _AddPackageSheetState extends ConsumerState<AddPackageSheet> {
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       hintText: strings.trackingAddTagHint,
-                      prefixIcon: const Icon(Icons.sell_outlined, size: 20),
+                      prefixIcon: const Icon(AppIcons.sell, size: 20),
                       isDense: true,
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -150,7 +151,7 @@ class _AddPackageSheetState extends ConsumerState<AddPackageSheet> {
                 const SizedBox(width: 8),
                 IconButton(
                   onPressed: _addTag,
-                  icon: const Icon(Icons.add_circle_outline),
+                  icon: const Icon(AppIcons.addCircle),
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ],
@@ -165,7 +166,7 @@ class _AddPackageSheetState extends ConsumerState<AddPackageSheet> {
                 children: _tags.map((tag) {
                   return Chip(
                     label: Text(tag, style: const TextStyle(fontSize: 13)),
-                    deleteIcon: const Icon(Icons.close, size: 16),
+                    deleteIcon: const Icon(AppIcons.close, size: 16),
                     onDeleted: () => _removeTag(tag),
                     visualDensity: VisualDensity.compact,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

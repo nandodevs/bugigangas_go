@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import '../../../core/theme/app_icons.dart';
 import '../../../l10n/app_strings.dart';
 import '../../../shared/utils/date_formatter.dart';
 import '../../../shared/widgets/status_badge.dart';
@@ -23,7 +25,7 @@ class TrackingScreen extends ConsumerWidget {
         title: Text(strings.trackingTitle),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(AppIcons.refresh),
             tooltip: strings.trackingRefresh,
             onPressed: () => ref.read(packageListProvider.notifier).refresh(),
           ),
@@ -40,10 +42,10 @@ class TrackingScreen extends ConsumerWidget {
               ),
               decoration: InputDecoration(
                 hintText: strings.trackingSearchHint,
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: const Icon(AppIcons.search),
                 suffixIcon: query.isNotEmpty
                     ? IconButton(
-                        icon: const Icon(Icons.clear),
+                        icon: const Icon(AppIcons.close),
                         onPressed: () {
                           ref.read(searchQueryProvider.notifier).state = '';
                         },
@@ -71,8 +73,10 @@ class TrackingScreen extends ConsumerWidget {
                         final package = packages[index];
                         return _PackageCard(
                           package: package,
-                          onTap: () =>
-                              context.push('/tracking/${package.code}'),
+                          onTap: () {
+                            HapticFeedback.lightImpact();
+                            context.push('/tracking/${package.code}');
+                          },
                           onDelete: () => ref
                               .read(packageListProvider.notifier)
                               .removePackage(package.code),
@@ -87,7 +91,7 @@ class TrackingScreen extends ConsumerWidget {
       // ── FAB to add new package ──────────────────────────────────
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showAddPackageSheet(context),
-        icon: const Icon(Icons.add),
+        icon: const Icon(AppIcons.add),
         label: Text(strings.trackingAdd),
       ),
     );
@@ -149,7 +153,7 @@ class _PackageCard extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: onDelete,
-                    icon: const Icon(Icons.close, size: 18),
+                    icon: const Icon(AppIcons.close, size: 18),
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(
@@ -169,7 +173,7 @@ class _PackageCard extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Row(
                         children: [
-                          Icon(Icons.access_time,
+                          Icon(AppIcons.clock,
                               size: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
                           const SizedBox(width: 4),
                           Text(

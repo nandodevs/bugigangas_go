@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_icons.dart';
 import '../../../l10n/app_strings.dart';
 import 'auth_providers.dart';
 
@@ -54,7 +55,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
-                      Icons.person_add_rounded,
+                      AppIcons.personAdd,
                       size: 40,
                       color: AppColors.primary,
                     ),
@@ -82,7 +83,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       labelText: strings.nameLabel,
-                      prefixIcon: const Icon(Icons.person_outline_rounded),
+                      prefixIcon: const Icon(AppIcons.personOutline),
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -98,7 +99,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       labelText: strings.emailLabel,
-                      prefixIcon: const Icon(Icons.email_outlined),
+                      prefixIcon: const Icon(AppIcons.emailOutlined),
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -117,12 +118,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       labelText: strings.passwordLabel,
-                      prefixIcon: const Icon(Icons.lock_outline_rounded),
+                      prefixIcon: const Icon(AppIcons.lockOutlineRounded),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword
-                              ? Icons.visibility_off_rounded
-                              : Icons.visibility_rounded,
+                              ? AppIcons.visibilityOff
+                              : AppIcons.visibility,
                         ),
                         onPressed: () =>
                             setState(() => _obscurePassword = !_obscurePassword),
@@ -142,12 +143,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     textInputAction: TextInputAction.done,
                     decoration: InputDecoration(
                       labelText: strings.confirmPasswordLabel,
-                      prefixIcon: const Icon(Icons.lock_outline_rounded),
+                      prefixIcon: const Icon(AppIcons.lockOutlineRounded),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscureConfirm
-                              ? Icons.visibility_off_rounded
-                              : Icons.visibility_rounded,
+                              ? AppIcons.visibilityOff
+                              : AppIcons.visibility,
                         ),
                         onPressed: () =>
                             setState(() => _obscureConfirm = !_obscureConfirm),

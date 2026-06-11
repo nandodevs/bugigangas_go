@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_icons.dart';
 import '../../../l10n/app_strings.dart';
 
 /// Placeholder search screen accessible from the bottom nav.
@@ -24,7 +25,7 @@ class SearchScreen extends ConsumerWidget {
             TextField(
               decoration: InputDecoration(
                 hintText: strings.searchHint,
-                prefixIcon: const Icon(Icons.search_rounded),
+                prefixIcon: const Icon(AppIcons.search),
                 filled: true,
                 fillColor: AppColors.surfaceVariant,
                 border: OutlineInputBorder(
@@ -35,7 +36,7 @@ class SearchScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 48),
             Icon(
-              Icons.search_rounded,
+              AppIcons.search,
               size: 96,
               color: AppColors.textHint.withOpacity(0.3),
             ),
